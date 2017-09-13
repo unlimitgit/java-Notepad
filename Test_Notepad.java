@@ -4,13 +4,12 @@
  * Created on __DATE__, __TIME__ 
  */  
   
-  
-//git test 4
  
 //package com.test;  
   
 import java.awt.*;  
 import java.io.*;  
+import java.net.URI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -81,6 +80,8 @@ public class Test_Notepad extends javax.swing.JFrame {
                int rowEnd = Utilities.getRowEnd(jTextArea1, offset);
                String selectedLine = jTextArea1.getText().substring(rowStart, rowEnd);
                System.out.println(selectedLine);
+			   String Website = StringExtract(selectedLine);
+			   OpenWebsite(Website);
 
             } catch (BadLocationException e1) {
                e1.printStackTrace();
@@ -176,6 +177,20 @@ public class Test_Notepad extends javax.swing.JFrame {
         pack();  
     }// </editor-fold>  
     //GEN-END:initComponents  
+	
+	public static String  StringExtract(String str) { 		
+		String result = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
+		return result;	     
+	}
+	
+	public static void OpenWebsite(String str) {
+		URI uri = URI.create(str);
+		try{
+			java.awt.Desktop.getDesktop().browse(uri);
+		}catch(IOException e){
+		
+		}
+	}
   
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {  
         // TODO add your handling code here:  

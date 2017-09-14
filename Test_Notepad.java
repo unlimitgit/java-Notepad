@@ -90,14 +90,22 @@ public class Test_Notepad extends javax.swing.JFrame {
          }
       });
 	   
-        // Set font 	  
-	    Font font = new Font("Verdana", Font.BOLD, 12);
-		jTextArea1.setFont(font);
-		jTextArea1.setForeground(Color.BLUE);
+       
   
         jTextArea1.setColumns(40);  
         jTextArea1.setRows(5);  
         jScrollPane1.setViewportView(jTextArea1);  
+		
+		 // Set font 	  
+	    Font font = new Font("Verdana", Font.BOLD, 12);
+		jTextArea1.setFont(font);
+		jTextArea1.setForeground(Color.BLUE);
+		
+		jTextArea1.append("Test 1;");
+		
+		jTextArea1.setForeground(Color.RED);
+		jTextArea1.append("Test 2;");
+		
   
         jMenu1.setText("\u6587\u4ef6");  
         jMenu1.setMinimumSize(new java.awt.Dimension(70, 50));  

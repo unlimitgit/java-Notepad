@@ -3,10 +3,6 @@
  * 
  * Created on __DATE__, __TIME__ 
  */  
-
-//git test 5 
-//git test 6
-//git test 7
  
 //package com.test;  
   
@@ -66,6 +62,7 @@ public class Test_Notepad extends javax.swing.JFrame {
   
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);  
 		
+		// Extract the string contents, and open the website page included by '[' ']'
 		jTextArea1.addMouseListener(new MouseAdapter() {
          @Override
          public void mouseClicked(MouseEvent e) {
@@ -92,6 +89,11 @@ public class Test_Notepad extends javax.swing.JFrame {
 
          }
       });
+	   
+        // Set font 	  
+	    Font font = new Font("Verdana", Font.BOLD, 12);
+		jTextArea1.setFont(font);
+		jTextArea1.setForeground(Color.BLUE);
   
         jTextArea1.setColumns(40);  
         jTextArea1.setRows(5);  

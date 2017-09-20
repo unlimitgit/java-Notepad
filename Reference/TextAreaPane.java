@@ -13,16 +13,21 @@ import java.awt.event.MouseEvent;
 
 
 public class TextAreaPane {
+	
+   static boolean paneArea = false ;
    
    public TextAreaPane() throws BadLocationException {
 		JFrame frame = new JFrame();
 		DefaultStyledDocument document = new DefaultStyledDocument();
-        JTextArea area = new JTextArea(document);
+        JTextArea area = new JTextArea();
+		JTextPane pane = new JTextPane(document);
         JPanel mainPanel = new JPanel();
-		JButton button = new JButton("Save");
+		String buttonDisplay = "Save";
+		JButton button = new JButton(buttonDisplay);
         button.setPreferredSize(new Dimension(100, 40));
+		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        area.setPreferredSize(new Dimension(200, 200));
+        area.setPreferredSize(new Dimension(200, 200));		
 		JScrollPane paneScrollPane = new JScrollPane(area);
         paneScrollPane.setVerticalScrollBarPolicy(
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -32,15 +37,23 @@ public class TextAreaPane {
         frame.getContentPane().add(paneScrollPane, BorderLayout.CENTER);
         frame.getContentPane().add(mainPanel, BorderLayout.WEST);
 		
+		pane.setPreferredSize(new Dimension(200, 200));	
+		
+		area.setVisible(true);
+		pane.setVisible(false);
+		
 		button.addActionListener(new java.awt.event.ActionListener(){ 
 		  public void actionPerformed(java.awt.event.ActionEvent evt) { 
+		  
+		    area.setVisible(false);
+		    pane.setVisible(true);
 			int lines = area.getLineCount();
 			try{// Traverse the text in the JTextArea line by line
 				for(int i = 0; i < lines; i ++){
 					int start = area.getLineStartOffset(i);
 					int end = area.getLineEndOffset(i);
 					// Implement method processLine
-					System.out.println(area.getText(start, end-start) + lines);
+					System.out.println(area.getText(start, end-start));
 
 				}
 			}catch(BadLocationException e){

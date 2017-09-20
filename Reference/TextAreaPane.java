@@ -1,64 +1,67 @@
+/*
+Create a java script to test JTextArea and JTextPane.
+Edit in the JTextArea. After pressing save button, display the contents in JTextPane
+Origin date: 09/20/2017
+*/
+
+import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.*;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
-
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Utilities;
-
-public class Test {
-   private static final int MIN_CHARS = 4;
-   private static final int MAX_CHARS = 8;
-   private static final int WORDS_PER_LINE = 10;
-   private static final int ROWS = 30;
-
-   public static void main(String[] args) {
-      Random random = new Random();
-      final JTextArea textArea = new JTextArea(20, 50);
-      JScrollPane scrollpane = new JScrollPane(textArea);
-      StringBuilder sb = new StringBuilder();
-
-      for (int row = 0; row < ROWS ; row++) {
-         sb = new StringBuilder();
-         for (int words = 0; words < WORDS_PER_LINE; words++) {
-            int maxChars = random.nextInt(MAX_CHARS - MIN_CHARS) + MIN_CHARS;
-            for (int charsPerWord = 0; charsPerWord < maxChars; charsPerWord++) {
-               char c = (char) (random.nextInt('z' - 'a' + 1) + 'a');
-               sb.append(c);
-            }
-            sb.append(" ");
-         }
-         textArea.append(sb.toString() + "\n");
-      }
-
-      textArea.addMouseListener(new MouseAdapter() {
-         @Override
-         public void mouseClicked(MouseEvent e) {
-            if (e.getButton() != MouseEvent.BUTTON1) {
-               return;
-            }
-            if (e.getClickCount() != 2) {
-               return;
-            }
-
-            int offset = textArea.viewToModel(e.getPoint());
-
-            try {
-               int rowStart = Utilities.getRowStart(textArea, offset);
-               int rowEnd = Utilities.getRowEnd(textArea, offset);
-               String selectedLine = textArea.getText().substring(rowStart, rowEnd);
-               System.out.println(selectedLine);
-
-            } catch (BadLocationException e1) {
-               e1.printStackTrace();
-            }
-
-         }
-      });
 
 
-      JOptionPane.showMessageDialog(null, scrollpane);
+public class TextAreaPane {
+   
+   public TextAreaPane() throws BadLocationException {
+		JFrame frame = new JFrame();
+		DefaultStyledDocument document = new DefaultStyledDocument();
+        JTextArea area = new JTextArea(document);
+        JPanel mainPanel = new JPanel();
+		JButton button = new JButton("Save");
+        button.setPreferredSize(new Dimension(100, 40));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        area.setPreferredSize(new Dimension(200, 200));
+		JScrollPane paneScrollPane = new JScrollPane(area);
+        paneScrollPane.setVerticalScrollBarPolicy(
+                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        paneScrollPane.setPreferredSize(new Dimension(250, 155));
+        paneScrollPane.setMinimumSize(new Dimension(10, 10));
+        mainPanel.add(button);
+        frame.getContentPane().add(paneScrollPane, BorderLayout.CENTER);
+        frame.getContentPane().add(mainPanel, BorderLayout.WEST);
+		
+		button.addActionListener(new java.awt.event.ActionListener(){ 
+		  public void actionPerformed(java.awt.event.ActionEvent evt) { 
+			int lines = area.getLineCount();
+			try{// Traverse the text in the JTextArea line by line
+				for(int i = 0; i < lines; i ++){
+					int start = area.getLineStartOffset(i);
+					int end = area.getLineEndOffset(i);
+					// Implement method processLine
+					System.out.println(area.getText(start, end-start) + lines);
+
+				}
+			}catch(BadLocationException e){
+				// Handle exception as you see fit
+			}
+			  } 
+		} );
+		
+		
+		
+		frame.pack();
+        frame.setVisible(true);
+	
    }
+   
+    
+   
+  
+   
+   public static void main(String[] args) throws BadLocationException {
+        new TextAreaPane();
+    }
+
 }

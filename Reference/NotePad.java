@@ -107,9 +107,19 @@ public class NotePad  {
 			
 			try {
 			String content = pane.getDocument().getText(0, pane.getDocument().getLength());
-			System.out.println(content);
-			int i = pane.getDocument().getLength();
-			System.out.println(i);
+			
+			int indexStart = 0;
+			int indexEnd = content.indexOf("\n");
+			while (indexEnd != -1){
+				System.out.println(content.substring(indexStart,indexEnd) + indexStart );
+				indexStart = indexEnd + 1;
+				indexEnd = content.indexOf("\n", indexEnd+1);
+			}
+			
+			
+			// System.out.println(content);
+			// int i = pane.getDocument().getLength();
+			// System.out.println(i);
 			
 			 try {
             FileWriter fileWriter =
@@ -132,10 +142,7 @@ public class NotePad  {
                 + fileName + "'");
             // Or we could just do this:
             // ex.printStackTrace();
-        }
-			
-			
-			
+        }	
 			} 
 			catch (BadLocationException ee) {
 				//handle exception

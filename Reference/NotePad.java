@@ -9,8 +9,9 @@ import java.io.*;
 
 public class NotePad  {
 	
-		boolean textEditable = true;
+	boolean textEditable = true;
 	
+
     public NotePad() throws BadLocationException {	
 		
 		String fileName = "write.txt";
@@ -89,6 +90,18 @@ public class NotePad  {
         //StyleConstants.setForeground(style, Color.BLACK);
         // add some data to the document
        // document.insertString(0, "One: success \n", style);
+	   
+	   public class ProcResult {
+			int returnCode;
+			String dispStr;    // etc
+		}
+		
+		// public ProcResult procString(String content) {
+			// ProcResult.returnCode = 1;
+			// ProcResult.dispStr = "Disp";
+		
+		// }
+
 		
 		buttonSaveEdit.addActionListener(new java.awt.event.ActionListener(){ 
 		  public void actionPerformed(java.awt.event.ActionEvent evt) { 	  
@@ -110,10 +123,20 @@ public class NotePad  {
 			
 			int indexStart = 0;
 			int indexEnd = content.indexOf("\n");
+			String contDisp = "";
+			int offset = 0;
 			while (indexEnd != -1){
-				System.out.println(content.substring(indexStart,indexEnd) + indexStart );
+				
+				contDisp = content.substring(indexStart,indexEnd);
+				System.out.println(contDisp + indexStart );
 				indexStart = indexEnd + 1;
 				indexEnd = content.indexOf("\n", indexEnd+1);
+			}
+			int contLen = content.length();
+			System.out.println("indexStart = " + indexStart + "contLen = " + contLen );
+			if (indexStart < contLen){
+				contDisp = content.substring(indexStart,indexEnd);
+				System.out.println(contDisp + indexStart );
 			}
 			
 			
@@ -190,6 +213,7 @@ public class NotePad  {
         frame.setVisible(true);
 
     }
+	
 
     public static void main(String[] args) throws BadLocationException {
         new NotePad();

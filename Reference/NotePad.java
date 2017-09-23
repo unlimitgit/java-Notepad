@@ -91,16 +91,9 @@ public class NotePad  {
         // add some data to the document
        // document.insertString(0, "One: success \n", style);
 	   
-	   public class ProcResult {
-			int returnCode;
-			String dispStr;    // etc
-		}
+	   
 		
-		// public ProcResult procString(String content) {
-			// ProcResult.returnCode = 1;
-			// ProcResult.dispStr = "Disp";
 		
-		// }
 
 		
 		buttonSaveEdit.addActionListener(new java.awt.event.ActionListener(){ 
@@ -125,18 +118,34 @@ public class NotePad  {
 			int indexEnd = content.indexOf("\n");
 			String contDisp = "";
 			int offset = 0;
+			
+			pane.setText("");
+			
+			ProcResult result = new ProcResult();
 			while (indexEnd != -1){
 				
 				contDisp = content.substring(indexStart,indexEnd);
-				System.out.println(contDisp + indexStart );
+				if (contDisp.length() > 1){
+					result = procString(contDisp);
+					System.out.println(result.dispStr + "  " + result.returnCode);
+				}
+				
 				indexStart = indexEnd + 1;
 				indexEnd = content.indexOf("\n", indexEnd+1);
+				
+				if ( result.returnCode == 2){
+					StyleConstants.setForeground(style, Color.RED);
+				} else {
+					StyleConstants.setForeground(style, Color.BLACK);
+				}
+				
+				document.insertString(pane.getDocument().getLength(), result.dispStr+"\n", style);
 			}
 			int contLen = content.length();
-			System.out.println("indexStart = " + indexStart + "contLen = " + contLen );
+			//System.out.println("indexStart = " + indexStart + "contLen = " + contLen );
 			if (indexStart < contLen){
 				contDisp = content.substring(indexStart,indexEnd);
-				System.out.println(contDisp + indexStart );
+				//System.out.println(contDisp + indexStart );
 			}
 			
 			
@@ -181,7 +190,7 @@ public class NotePad  {
 				FileDialog fd = new FileDialog(frame, "open", FileDialog.LOAD);  
 				fd.setVisible(true);  
 				String strFile = fd.getDirectory() + fd.getFile();  
-				System.out.println(strFile);
+				//System.out.println(strFile);
 				String line = null;
 				String content = "";
 				if (strFile != null) {  
@@ -213,6 +222,46 @@ public class NotePad  {
         frame.setVisible(true);
 
     }
+	
+	public class ProcResult {
+			int returnCode;
+			String dispStr;    // etc
+		}
+		
+	public ProcResult procString(String content) {
+			ProcResult result = new ProcResult();
+			result.dispStr = content;
+			
+			if (content.substring(0,1).compareTo("[") == 0){
+				result.returnCode = 2;
+				result.dispStr = removeCharAt(result.dispStr,"[");
+				result.dispStr = removeCharAt(result.dispStr,"]");
+			} else {
+				result.returnCode = 1;
+				result.dispStr = "Disp";
+			}
+			
+			//System.out.println(content.substring(0,1).compareTo("["));  
+			// result.returnCode = 1;
+			// result.dispStr = "Disp";
+			
+			return result;
+		
+		}
+		
+	public static String removeCharAt(String s, String h) {
+		int index = s.indexOf(h);
+		String result = s;
+		while (index != -1){
+			if (index != (result.length()-1)){
+				result = result.substring(0,index) + result.substring(index+1);
+			} else {
+				result = result.substring(0,index);
+			}
+		index = result.indexOf(h);
+		}	
+		return result;			
+   }
 	
 
     public static void main(String[] args) throws BadLocationException {

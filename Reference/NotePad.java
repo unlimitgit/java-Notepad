@@ -62,8 +62,8 @@ public class NotePad  {
             try {
                int rowStart = Utilities.getRowStart(pane, offset);
                int rowEnd = Utilities.getRowEnd(pane, offset);
-               String selectedLine = pane.getText().substring(rowStart, rowEnd);
-               System.out.println(selectedLine);
+               String selectedLine = pane.getText(rowStart, rowEnd-rowStart);
+               System.out.println(selectedLine + rowStart + rowEnd);
 			   // String Website = StringExtract(selectedLine);
 			   // OpenWebsite(Website);
 

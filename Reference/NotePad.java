@@ -127,11 +127,18 @@ public class NotePad  {
 				contDisp = content.substring(indexStart,indexEnd);
 				if (contDisp.length() > 1){
 					result = procString(contDisp);
-					System.out.println(result.dispStr + "  " + result.returnCode);
+					//System.out.println(result.dispStr + "  " + result.returnCode);
+				} else {
+					result.dispStr = "";
+					result.returnCode = 3;
 				}
 				
 				indexStart = indexEnd + 1;
 				indexEnd = content.indexOf("\n", indexEnd+1);
+				
+				// System.out.println("indexStart = " + indexStart + "indexEnd = " + indexEnd);
+				// System.out.println(result.dispStr + "  " + result.returnCode);
+				// System.out.println("contDisp.length + " + contDisp.length() + contDisp);
 				
 				if ( result.returnCode == 2){
 					StyleConstants.setForeground(style, Color.RED);

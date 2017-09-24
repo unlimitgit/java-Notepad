@@ -61,9 +61,23 @@ public class NotePad  {
 
             try {
                int rowStart = Utilities.getRowStart(pane, offset);
-               int rowEnd = Utilities.getRowEnd(pane, offset);
-               String selectedLine = pane.getText(rowStart, rowEnd-rowStart);
-               System.out.println(selectedLine + rowStart + rowEnd);
+			   int textLength = pane.getDocument().getLength();
+			   String dispContent1 =  pane.getText(0, rowStart);
+			   String dispContent2 =  pane.getText(rowStart, textLength-rowStart);
+			   int index1 = dispContent1.lastIndexOf("\n");
+			   int index2 = dispContent2.indexOf("\n");
+			   if ((index2 != -1) && (index1 != -1)){
+				   System.out.println(dispContent1.substring(index1) + dispContent2.substring(0, index2));
+			   } else if (index2 != -1) {
+				   System.out.println(dispContent2.substring(0, index2));
+			   } else if (index1 != -1) {
+				   System.out.println(dispContent1.substring(index1) + dispContent2.substring(0, textLength));
+			   } else {
+				   System.out.println(dispContent2.substring(0, textLength));
+			   }
+               // int rowEnd = Utilities.getRowEnd(pane, offset);
+               // String selectedLine = pane.getText(rowStart, rowEnd-rowStart);
+               // System.out.println(selectedLine + rowStart + rowEnd);
 			   // String Website = StringExtract(selectedLine);
 			   // OpenWebsite(Website);
 

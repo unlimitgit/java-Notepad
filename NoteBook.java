@@ -24,7 +24,7 @@ public class NoteBook {
 		
 		
 		// Define its own color
-		Color customGray = new Color(245, 245, 245); 
+		Color customGray = new Color(230, 230, 230); 
 		
 		// Create frame as main display interface
 		JFrame frame = new JFrame();
@@ -40,16 +40,6 @@ public class NoteBook {
 		JPanel searchPanel = new JPanel();
 		
 			
-		// Define the color and size of the panel 
-		buttonPanel.setPreferredSize(new Dimension(30, 100));
-		buttonPanel.setBackground(customGray);
-		//mainPanel.setPreferredSize(new Dimension(800, 100));
-		//mainPanel.setBackground(Color.white);
-		// searchPanel.setPreferredSize(new Dimension(800, 50));
-		// searchPanel.setBackground(Color.YELLOW);
-		// messagePanel.setPreferredSize(new Dimension(30, 100));
-		// messagePanel.setBackground(customGray);
-		
 		// Add buttons	
 		JButton buttonSaveEdit = new JButton("Save");
 		JButton buttonSearch = new JButton("Disable search");
@@ -73,6 +63,7 @@ public class NoteBook {
 		DefaultStyledDocument searchDoc = new DefaultStyledDocument();
         JTextPane searchPane = new JTextPane(searchDoc);
 		searchPane.setPreferredSize(new Dimension(800, 100));
+		searchPane.setBackground(customGray);
 		JScrollPane searchScrollPane = new JScrollPane(searchPane);
         searchScrollPane.setVerticalScrollBarPolicy(
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -82,9 +73,10 @@ public class NoteBook {
 		
 		DefaultStyledDocument messageDoc = new DefaultStyledDocument();
         JTextPane messagePane = new JTextPane(messageDoc);
-		searchPane.setPreferredSize(new Dimension(800, 100));
+		//messagePane.setPreferredSize(new Dimension(100, 100));
 		messagePane.setBackground(customGray);
 		messagePane.setEditable(false);
+		
 		
 		// Add panels to frame
 	    frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_START);

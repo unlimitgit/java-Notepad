@@ -14,6 +14,12 @@ import javax.swing.BoxLayout;
 import java.awt.Component;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
   
 public class NoteBook {
 	
@@ -21,7 +27,7 @@ public class NoteBook {
 	boolean searchVisible = false;  		// Related to search engine
 	boolean textEditable = true;			// The main panel editable or not
 	
-	public NoteBook() {
+	private NoteBook()  {
 			
 		// Define its own color
 		Color customGray = new Color(230, 230, 230); 
@@ -32,7 +38,11 @@ public class NoteBook {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ImageIcon imgIcon = new ImageIcon("icon.jpg");
 		frame.setIconImage(imgIcon.getImage());
-			
+		
+		//Create Menubar
+		JMenuBar menuBar = createMenuBar();
+		frame.setJMenuBar(menuBar);
+		
 		//Create button panel, mainPanel, and message Panel
 		//Refer to readme.docx for further information
 		JPanel buttonPanel = new JPanel();		
@@ -90,8 +100,8 @@ public class NoteBook {
         frame.setVisible(true);
 		
 		// Enable/disable search result panel, controlled by buttonSearch
-		buttonSearch.addActionListener(new java.awt.event.ActionListener(){ 
-		  public void actionPerformed(java.awt.event.ActionEvent evt) { 
+		buttonSearch.addActionListener(new ActionListener(){ 
+		  public void actionPerformed(ActionEvent evt) { 
 				if (searchVisible){
 					searchVisible = false;
 					buttonSearch.setText("Enable search");
@@ -108,14 +118,61 @@ public class NoteBook {
 		} );
 		
 		// This button is only for temporary test, will remove in the official version.
-		buttonTest.addActionListener(new java.awt.event.ActionListener(){ 
-		  public void actionPerformed(java.awt.event.ActionEvent evt) { 
+		buttonTest.addActionListener(new ActionListener(){ 
+		  public void actionPerformed(ActionEvent evt) { 
 				frame.setTitle("Test");			
 			  } 
 		} );
 		
 		
 	}
+	
+	public JMenuBar createMenuBar() {
+		// Create Menu
+		JMenuBar menuBar = new JMenuBar();
+		
+		//Build file menu
+		JMenu menuFile = new JMenu("File");
+		menuBar.add(menuFile);
+		
+		//New file
+        JMenuItem menuItemNew = new JMenuItem("New Notebook");
+        menuItemNew.addActionListener(new ActionListener() {  
+            public void actionPerformed(ActionEvent evt) {  
+                menuItemNewActionPerformed(evt);  
+            }  
+        });  
+        menuFile.add(menuItemNew);
+		
+		menuFile.addSeparator();
+		
+		//Exit system
+        JMenuItem menuItemExit = new JMenuItem("Exit");
+        menuItemExit.addActionListener(new ActionListener() {  
+            public void actionPerformed(ActionEvent evt) {  
+               menuItemExitActionPerformed(evt);  
+            }  
+        });  
+        menuFile.add(menuItemExit);
+		
+		
+		//Build edit menu
+		JMenu menuEdit = new JMenu("Edit");
+		menuBar.add(menuEdit);
+
+        		
+		return menuBar;
+	}
+	
+	private void menuItemNewActionPerformed(ActionEvent evt) {  
+        // TODO add your handling code here:  
+        
+    }  
+	
+	private void menuItemExitActionPerformed(ActionEvent evt) {  
+        // TODO add your handling code here:  
+       System.exit(0);   // Exit the whole system.
+    }  
 	
 	public static void main(String[] args) {
         new NoteBook();

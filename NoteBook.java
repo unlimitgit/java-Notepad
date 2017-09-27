@@ -15,7 +15,12 @@ import java.awt.Component;
   
 public class NoteBook {
 	
+	// Define parameters
+	boolean searchVisible = true;
+	
 	public NoteBook() {
+		
+		
 		
 		// Define its own color
 		Color customGray = new Color(245, 245, 245); 
@@ -49,12 +54,12 @@ public class NoteBook {
 		
 		// Add buttons	
 		JButton buttonSaveEdit = new JButton("Save");
-		JButton buttonRemove = new JButton("Remove search");
+		JButton buttonSearch = new JButton("Disable search");
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(buttonSaveEdit);
-		buttonPanel.add(buttonRemove);
+		buttonPanel.add(buttonSearch);
 		buttonSaveEdit.setAlignmentX(Component.LEFT_ALIGNMENT);
-		buttonRemove.setAlignmentX(Component.LEFT_ALIGNMENT);
+		buttonSearch.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		// Add panels to frame
 	    frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_START);
@@ -64,6 +69,26 @@ public class NoteBook {
 		
 		frame.pack();
         frame.setVisible(true);
+		
+		// Enable/disable search result panel, controlled by buttonSearch
+		buttonSearch.addActionListener(new java.awt.event.ActionListener(){ 
+		  public void actionPerformed(java.awt.event.ActionEvent evt) { 
+				if (searchVisible){
+					searchVisible = false;
+					buttonSearch.setText("Enable search");
+					frame.getContentPane().remove(searchPanel); 
+				} else {
+					searchVisible = true;
+					buttonSearch.setText("Disable search");
+					frame.getContentPane().add(searchPanel, BorderLayout.LINE_END); 					
+				}
+				
+				frame.invalidate();
+                frame.validate();				
+			  } 
+		} );
+		
+		
 		
 	}
 	

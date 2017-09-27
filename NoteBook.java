@@ -45,8 +45,8 @@ public class NoteBook {
 		// Define the color and size of the panel 
 		buttonPanel.setPreferredSize(new Dimension(30, 100));
 		buttonPanel.setBackground(customGray);
-		mainPanel.setPreferredSize(new Dimension(800, 100));
-		mainPanel.setBackground(Color.white);
+		//mainPanel.setPreferredSize(new Dimension(800, 100));
+		//mainPanel.setBackground(Color.white);
 		searchPanel.setPreferredSize(new Dimension(800, 50));
 		searchPanel.setBackground(Color.YELLOW);
 		messagePanel.setPreferredSize(new Dimension(30, 100));
@@ -61,9 +61,20 @@ public class NoteBook {
 		buttonSaveEdit.setAlignmentX(Component.LEFT_ALIGNMENT);
 		buttonSearch.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
+		
+		// Add textpane
+		DefaultStyledDocument document = new DefaultStyledDocument();
+        JTextPane textPane = new JTextPane(document);
+		textPane.setPreferredSize(new Dimension(800, 100));
+		JScrollPane paneScrollPane = new JScrollPane(textPane);
+        paneScrollPane.setVerticalScrollBarPolicy(
+                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        paneScrollPane.setPreferredSize(new Dimension(250, 155));
+        paneScrollPane.setMinimumSize(new Dimension(10, 10));
+		
 		// Add panels to frame
 	    frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_START);
-		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+		frame.getContentPane().add(textPane, BorderLayout.CENTER);
 		frame.getContentPane().add(searchPanel, BorderLayout.LINE_END);
 		frame.getContentPane().add(messagePanel, BorderLayout.PAGE_END);
 		

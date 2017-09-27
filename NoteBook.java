@@ -13,41 +13,43 @@ import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import java.awt.Component;
 import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
   
 public class NoteBook {
 	
 	// Define parameters
-	boolean searchVisible = false;  
+	boolean searchVisible = false;  		// Related to search engine
+	boolean textEditable = true;			// The main panel editable or not
 	
 	public NoteBook() {
-		
-		
-		
+			
 		// Define its own color
 		Color customGray = new Color(230, 230, 230); 
 		
 		// Create frame as main display interface
-		JFrame frame = new JFrame();
+		String textFrame = "Notebook with Java";
+		JFrame frame = new JFrame(textFrame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-	
+		ImageIcon imgIcon = new ImageIcon("icon.jpg");
+		frame.setIconImage(imgIcon.getImage());
+			
 		//Create button panel, mainPanel, and message Panel
 		//Refer to readme.docx for further information
-		JPanel buttonPanel = new JPanel();
-		JPanel mainPanel = new JPanel();
-		JPanel messagePanel = new JPanel();
-		JPanel searchPanel = new JPanel();
-		
+		JPanel buttonPanel = new JPanel();		
 			
-		// Add buttons	
-		JButton buttonSaveEdit = new JButton("Save");
+		// Add buttons
+        JButton buttonSaveEdit = new JButton("Save");
 		JButton buttonSearch = new JButton("Enable search");
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(buttonSaveEdit);
 		buttonPanel.add(buttonSearch);
 		buttonSaveEdit.setAlignmentX(Component.LEFT_ALIGNMENT);
-		buttonSearch.setAlignmentX(Component.LEFT_ALIGNMENT);
+		buttonSearch.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		
+		// This button is only for temporary test, will remove in the official version.
+		JButton buttonTest = new JButton("Test");
+		buttonPanel.add(buttonTest);
+		buttonTest.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
 		
 		// Add textpane and searchPane
@@ -105,6 +107,12 @@ public class NoteBook {
 			  } 
 		} );
 		
+		// This button is only for temporary test, will remove in the official version.
+		buttonTest.addActionListener(new java.awt.event.ActionListener(){ 
+		  public void actionPerformed(java.awt.event.ActionEvent evt) { 
+				frame.setTitle("Test");			
+			  } 
+		} );
 		
 		
 	}

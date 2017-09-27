@@ -12,11 +12,12 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import java.awt.Component;
+import javax.swing.JScrollPane;
   
 public class NoteBook {
 	
 	// Define parameters
-	boolean searchVisible = true;
+	boolean searchVisible = true;  
 	
 	public NoteBook() {
 		
@@ -30,10 +31,7 @@ public class NoteBook {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
-		//Create TextPane
-		DefaultStyledDocument document = new DefaultStyledDocument();
-        JTextPane textPane = new JTextPane(document);
-		
+	
 		//Create button panel, mainPanel, and message Panel
 		//Refer to readme.docx for further information
 		JPanel buttonPanel = new JPanel();
@@ -47,10 +45,10 @@ public class NoteBook {
 		buttonPanel.setBackground(customGray);
 		//mainPanel.setPreferredSize(new Dimension(800, 100));
 		//mainPanel.setBackground(Color.white);
-		searchPanel.setPreferredSize(new Dimension(800, 50));
-		searchPanel.setBackground(Color.YELLOW);
-		messagePanel.setPreferredSize(new Dimension(30, 100));
-		messagePanel.setBackground(customGray);
+		// searchPanel.setPreferredSize(new Dimension(800, 50));
+		// searchPanel.setBackground(Color.YELLOW);
+		// messagePanel.setPreferredSize(new Dimension(30, 100));
+		// messagePanel.setBackground(customGray);
 		
 		// Add buttons	
 		JButton buttonSaveEdit = new JButton("Save");
@@ -62,21 +60,37 @@ public class NoteBook {
 		buttonSearch.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		
-		// Add textpane
-		DefaultStyledDocument document = new DefaultStyledDocument();
-        JTextPane textPane = new JTextPane(document);
+		// Add textpane and searchPane
+		DefaultStyledDocument textDoc = new DefaultStyledDocument();
+        JTextPane textPane = new JTextPane(textDoc);
 		textPane.setPreferredSize(new Dimension(800, 100));
-		JScrollPane paneScrollPane = new JScrollPane(textPane);
-        paneScrollPane.setVerticalScrollBarPolicy(
+		JScrollPane textScrollPane = new JScrollPane(textPane);
+        textScrollPane.setVerticalScrollBarPolicy(
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        paneScrollPane.setPreferredSize(new Dimension(250, 155));
-        paneScrollPane.setMinimumSize(new Dimension(10, 10));
+        textScrollPane.setPreferredSize(new Dimension(250, 155));
+        textScrollPane.setMinimumSize(new Dimension(10, 10));
+		
+		DefaultStyledDocument searchDoc = new DefaultStyledDocument();
+        JTextPane searchPane = new JTextPane(searchDoc);
+		searchPane.setPreferredSize(new Dimension(800, 100));
+		JScrollPane searchScrollPane = new JScrollPane(searchPane);
+        searchScrollPane.setVerticalScrollBarPolicy(
+                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        searchScrollPane.setPreferredSize(new Dimension(250, 155));
+        searchScrollPane.setMinimumSize(new Dimension(10, 10));
+		searchPane.setEditable(false);
+		
+		DefaultStyledDocument messageDoc = new DefaultStyledDocument();
+        JTextPane messagePane = new JTextPane(messageDoc);
+		searchPane.setPreferredSize(new Dimension(800, 100));
+		messagePane.setBackground(customGray);
+		messagePane.setEditable(false);
 		
 		// Add panels to frame
 	    frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_START);
-		frame.getContentPane().add(textPane, BorderLayout.CENTER);
-		frame.getContentPane().add(searchPanel, BorderLayout.LINE_END);
-		frame.getContentPane().add(messagePanel, BorderLayout.PAGE_END);
+		frame.getContentPane().add(textScrollPane, BorderLayout.CENTER);
+		frame.getContentPane().add(searchScrollPane, BorderLayout.LINE_END);
+		frame.getContentPane().add(messagePane, BorderLayout.PAGE_END);
 		
 		frame.pack();
         frame.setVisible(true);
@@ -87,11 +101,11 @@ public class NoteBook {
 				if (searchVisible){
 					searchVisible = false;
 					buttonSearch.setText("Enable search");
-					frame.getContentPane().remove(searchPanel); 
+					frame.getContentPane().remove(searchScrollPane); 
 				} else {
 					searchVisible = true;
 					buttonSearch.setText("Disable search");
-					frame.getContentPane().add(searchPanel, BorderLayout.LINE_END); 					
+					frame.getContentPane().add(searchScrollPane, BorderLayout.LINE_END); 					
 				}
 				
 				frame.invalidate();

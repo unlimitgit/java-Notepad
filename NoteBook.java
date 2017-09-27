@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 public class NoteBook {
 	
 	// Define parameters
-	boolean searchVisible = true;  
+	boolean searchVisible = false;  
 	
 	public NoteBook() {
 		
@@ -42,7 +42,7 @@ public class NoteBook {
 			
 		// Add buttons	
 		JButton buttonSaveEdit = new JButton("Save");
-		JButton buttonSearch = new JButton("Disable search");
+		JButton buttonSearch = new JButton("Enable search");
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(buttonSaveEdit);
 		buttonPanel.add(buttonSearch);
@@ -81,7 +81,7 @@ public class NoteBook {
 		// Add panels to frame
 	    frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_START);
 		frame.getContentPane().add(textScrollPane, BorderLayout.CENTER);
-		frame.getContentPane().add(searchScrollPane, BorderLayout.LINE_END);
+		//frame.getContentPane().add(searchScrollPane, BorderLayout.LINE_END);
 		frame.getContentPane().add(messagePane, BorderLayout.PAGE_END);
 		
 		frame.pack();

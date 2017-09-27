@@ -13,65 +13,40 @@ import java.awt.event.MouseEvent;
 
 
 public class TextAreaPane {
-	
-   static boolean paneArea = false ;
    
    public TextAreaPane() throws BadLocationException {
 		JFrame frame = new JFrame();
-		JTextArea area = new JTextArea();
-		JTextPane pane = new JTextPane();
+		DefaultStyledDocument document = new DefaultStyledDocument();
+        JTextArea area = new JTextArea(document);
         JPanel mainPanel = new JPanel();
-		String buttonDisplay = "Save";
-		JButton button = new JButton(buttonDisplay);
+		JButton button = new JButton("Save");
         button.setPreferredSize(new Dimension(100, 40));
-		mainPanel.add(button);
-		
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        area.setPreferredSize(new Dimension(200, 200));		
+        area.setPreferredSize(new Dimension(200, 200));
 		JScrollPane paneScrollPane = new JScrollPane(area);
         paneScrollPane.setVerticalScrollBarPolicy(
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         paneScrollPane.setPreferredSize(new Dimension(250, 155));
-        paneScrollPane.setMinimumSize(new Dimension(10, 10));        
+        paneScrollPane.setMinimumSize(new Dimension(10, 10));
+        mainPanel.add(button);
         frame.getContentPane().add(paneScrollPane, BorderLayout.CENTER);
-		  frame.getContentPane().add(mainPanel, BorderLayout.WEST);
-      
-		
-		pane.setPreferredSize(new Dimension(200, 200));	
-		JScrollPane paneScrollPane1 = new JScrollPane(pane);
-        paneScrollPane1.setVerticalScrollBarPolicy(
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        paneScrollPane1.setPreferredSize(new Dimension(250, 155));
-        paneScrollPane1.setMinimumSize(new Dimension(10, 10));
-        frame.getContentPane().add(paneScrollPane1, BorderLayout.CENTER);
-      
-		
-		area.setVisible(true);
-		pane.setVisible(false);
+        frame.getContentPane().add(mainPanel, BorderLayout.WEST);
 		
 		button.addActionListener(new java.awt.event.ActionListener(){ 
 		  public void actionPerformed(java.awt.event.ActionEvent evt) { 
-		  
-		    int lines = area.getLineCount();
-			area.setVisible(false);	
-		    pane.setVisible(true);
-			
+			int lines = area.getLineCount();
 			try{// Traverse the text in the JTextArea line by line
 				for(int i = 0; i < lines; i ++){
 					int start = area.getLineStartOffset(i);
 					int end = area.getLineEndOffset(i);
 					// Implement method processLine
-					Document doc = pane.getDocument();
-					doc.insertString(doc.getLength(), area.getText(start, end-start), null);
-					System.out.println(area.getText(start, end-start));
+					System.out.println(area.getText(start, end-start) + lines);
 
 				}
 			}catch(BadLocationException e){
 				// Handle exception as you see fit
 			}
-			
-			
-			} 
+			  } 
 		} );
 		
 		

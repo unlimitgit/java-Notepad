@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
+import java.awt.Component;
   
 public class NoteBook {
 	
@@ -31,18 +34,32 @@ public class NoteBook {
 		JPanel buttonPanel = new JPanel();
 		JPanel mainPanel = new JPanel();
 		JPanel messagePanel = new JPanel();
+		JPanel searchPanel = new JPanel();
 		
+			
 		// Define the color and size of the panel 
 		buttonPanel.setPreferredSize(new Dimension(30, 100));
 		buttonPanel.setBackground(customGray);
 		mainPanel.setPreferredSize(new Dimension(800, 100));
 		mainPanel.setBackground(Color.white);
+		searchPanel.setPreferredSize(new Dimension(800, 50));
+		searchPanel.setBackground(Color.YELLOW);
 		messagePanel.setPreferredSize(new Dimension(30, 100));
 		messagePanel.setBackground(customGray);
+		
+		// Add buttons	
+		JButton buttonSaveEdit = new JButton("Save");
+		JButton buttonRemove = new JButton("Remove search");
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		buttonPanel.add(buttonSaveEdit);
+		buttonPanel.add(buttonRemove);
+		buttonSaveEdit.setAlignmentX(Component.LEFT_ALIGNMENT);
+		buttonRemove.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		// Add panels to frame
 	    frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_START);
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+		frame.getContentPane().add(searchPanel, BorderLayout.LINE_END);
 		frame.getContentPane().add(messagePanel, BorderLayout.PAGE_END);
 		
 		frame.pack();

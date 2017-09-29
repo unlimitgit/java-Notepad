@@ -20,12 +20,24 @@ import javax.swing.JMenuItem;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import java.awt.FileDialog;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.BufferedReader;
+
+import javax.swing.text.*;
   
 public class NoteBook {
 	
 	// Define parameters
 	boolean searchVisible = false;  		// Related to search engine
 	boolean textEditable = true;			// The main panel editable or not
+	
+	JFrame frame ;
+	JTextPane textPane;
+	DefaultStyledDocument textDoc;  
+	Style style;
 	
 	private NoteBook()  {
 			
@@ -34,7 +46,7 @@ public class NoteBook {
 		
 		// Create frame as main display interface
 		String textFrame = "Notebook with Java";
-		JFrame frame = new JFrame(textFrame);
+		frame = new JFrame(textFrame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ImageIcon imgIcon = new ImageIcon("icon.jpg");
 		frame.setIconImage(imgIcon.getImage());
@@ -63,8 +75,8 @@ public class NoteBook {
 		
 		
 		// Add textpane and searchPane
-		DefaultStyledDocument textDoc = new DefaultStyledDocument();
-        JTextPane textPane = new JTextPane(textDoc);
+		textDoc = new DefaultStyledDocument();
+        textPane = new JTextPane(textDoc);
 		textPane.setPreferredSize(new Dimension(800, 100));
 		JScrollPane textScrollPane = new JScrollPane(textPane);
         textScrollPane.setVerticalScrollBarPolicy(
@@ -144,6 +156,15 @@ public class NoteBook {
         });  
         menuFile.add(menuItemNew);
 		
+		//Load file
+        JMenuItem menuItemLoad = new JMenuItem("Load Notebook");
+        menuItemLoad.addActionListener(new ActionListener() {  
+            public void actionPerformed(ActionEvent evt) {  
+               menuItemLoadActionPerformed(evt);  
+            }  
+        });  
+        menuFile.add(menuItemLoad);
+		
 		menuFile.addSeparator();
 		
 		//Exit system
@@ -166,6 +187,28 @@ public class NoteBook {
 	
 	private void menuItemNewActionPerformed(ActionEvent evt) {  
         // TODO add your handling code here:  
+        
+    }  
+	
+	private void menuItemLoadActionPerformed(ActionEvent evt) {  
+        // TODO add your handling code here:  
+		FileDialog fd = new FileDialog(frame, "Open", FileDialog.LOAD);  
+        fd.setVisible(true);  
+        String strFile = fd.getDirectory() + fd.getFile(); 		
+		String line = null;
+        if (strFile != null) {  
+            try {  
+                textPane.setText("");
+				FileReader fileReader = new FileReader(strFile);
+				BufferedReader bufferedReader = new BufferedReader(fileReader); 
+				while((line = bufferedReader.readLine()) != null) {
+						textDoc.insertString(textPane.getDocument().getLength(), line+"\n", style);
+					}   
+				bufferedReader.close();      
+            } catch (Exception e) {  
+               
+            }  
+        }  
         
     }  
 	

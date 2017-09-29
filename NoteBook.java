@@ -38,6 +38,7 @@ public class NoteBook {
 	JTextPane textPane;
 	DefaultStyledDocument textDoc;  
 	Style style;
+	JButton buttonSaveEdit, buttonSearch, buttonTest;
 	
 	private NoteBook()  {
 			
@@ -60,8 +61,8 @@ public class NoteBook {
 		JPanel buttonPanel = new JPanel();		
 			
 		// Add buttons
-        JButton buttonSaveEdit = new JButton("Save");
-		JButton buttonSearch = new JButton("Enable search");
+        buttonSaveEdit = new JButton("Save");
+		buttonSearch = new JButton("Enable search");
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(buttonSaveEdit);
 		buttonPanel.add(buttonSearch);
@@ -69,7 +70,7 @@ public class NoteBook {
 		buttonSearch.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
 		// This button is only for temporary test, will remove in the official version.
-		JButton buttonTest = new JButton("Test");
+		buttonTest = new JButton("Test");
 		buttonPanel.add(buttonTest);
 		buttonTest.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
@@ -77,6 +78,7 @@ public class NoteBook {
 		// Add textpane and searchPane
 		textDoc = new DefaultStyledDocument();
         textPane = new JTextPane(textDoc);
+		createStyles(textDoc);
 		textPane.setPreferredSize(new Dimension(800, 100));
 		JScrollPane textScrollPane = new JScrollPane(textPane);
         textScrollPane.setVerticalScrollBarPolicy(
@@ -185,6 +187,40 @@ public class NoteBook {
 		return menuBar;
 	}
 	
+	// create styles for styledDocment
+	private void createStyles(StyledDocument doc) {
+        Style baseStyle = doc.addStyle("base", null);
+        StyleConstants.setFontFamily(baseStyle, "Lucida Sans Unicode");
+        StyleConstants.setFontSize(baseStyle, 18);
+        StyleConstants.setFirstLineIndent(baseStyle, 20f);
+        StyleConstants.setLeftIndent(baseStyle, 10f);
+ 
+        style = doc.addStyle("base", baseStyle);
+		// StyleConstants.setForeground(style, Color.black);
+		
+		style = doc.addStyle("bold", baseStyle);
+        StyleConstants.setBold(style, true);
+		StyleConstants.setForeground(style, Color.red);
+ 
+        style = doc.addStyle("italic", baseStyle);
+        StyleConstants.setItalic(style, true);
+ 
+        style = doc.addStyle("blue", baseStyle);
+        StyleConstants.setForeground(style, Color.blue);
+ 
+        style = doc.addStyle("underline", baseStyle);
+        StyleConstants.setUnderline(style, true);
+ 
+        style = doc.addStyle("green", baseStyle);
+        StyleConstants.setForeground(style, Color.green.darker());
+        StyleConstants.setUnderline(style, true);
+ 
+        style = doc.addStyle("highlight", baseStyle);
+        StyleConstants.setForeground(style, Color.yellow);
+        StyleConstants.setBackground(style, Color.black);
+ 
+    }
+	
 	private void menuItemNewActionPerformed(ActionEvent evt) {  
         // TODO add your handling code here:  
         
@@ -192,17 +228,43 @@ public class NoteBook {
 	
 	private void menuItemLoadActionPerformed(ActionEvent evt) {  
         // TODO add your handling code here:  
+		
+		// Initial parameters
+		searchVisible = false; 
+		textEditable = false;
+		buttonSaveEdit.setText("Edit");
+				
+		// Open files		
 		FileDialog fd = new FileDialog(frame, "Open", FileDialog.LOAD);  
         fd.setVisible(true);  
         String strFile = fd.getDirectory() + fd.getFile(); 		
 		String line = null;
+		ProcResult result = new ProcResult();
         if (strFile != null) {  
             try {  
                 textPane.setText("");
 				FileReader fileReader = new FileReader(strFile);
 				BufferedReader bufferedReader = new BufferedReader(fileReader); 
 				while((line = bufferedReader.readLine()) != null) {
-						textDoc.insertString(textPane.getDocument().getLength(), line+"\n", style);
+						// System.out.println(line.length());
+						// style = textDoc.getStyle("highlight");
+						// textDoc.insertString(textPane.getDocument().getLength(), line+"\n", style);
+						if (line.length() > 1){
+							result = procString(line);
+							//System.out.println(result.dispStr + "  " + result.returnCode);
+						} else {
+							result.dispStr = "";
+							result.returnCode = 3;
+						}
+						
+						if ( result.returnCode == 2){
+							style = textDoc.getStyle("bold");
+						} else {
+							style = textDoc.getStyle("base");
+						}
+						
+						textDoc.insertString(textPane.getDocument().getLength(), result.dispStr+"\n", style);
+								
 					}   
 				bufferedReader.close();      
             } catch (Exception e) {  
@@ -210,7 +272,43 @@ public class NoteBook {
             }  
         }  
         
-    }  
+    } 
+
+	private class ProcResult {
+			int returnCode;
+			String dispStr;    // etc
+		}
+	
+	private ProcResult procString(String content) {
+			ProcResult result = new ProcResult();
+			result.dispStr = content;
+			
+			if (content.substring(0,1).compareTo("[") == 0){
+				result.returnCode = 2;
+				result.dispStr = removeCharAt(result.dispStr,"[");
+				result.dispStr = removeCharAt(result.dispStr,"]");
+			} else {
+				result.returnCode = 1;
+				result.dispStr = "Disp";
+			}
+			
+			return result;
+		
+		}
+		
+	private static String removeCharAt(String s, String h) {
+		int index = s.indexOf(h);
+		String result = s;
+		while (index != -1){
+			if (index != (result.length()-1)){
+				result = result.substring(0,index) + result.substring(index+1);
+			} else {
+				result = result.substring(0,index);
+			}
+		index = result.indexOf(h);
+		}	
+		return result;			
+   }
 	
 	private void menuItemExitActionPerformed(ActionEvent evt) {  
         // TODO add your handling code here:  
